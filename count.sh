@@ -1,11 +1,14 @@
 #!/bin/bash
+# setting out vars
 help=0
 verb=0
 weeks=0
 days=0
 m=1
+# fro a better concatnation
 str="days"
 getopts "hvd:w:" name
+# get commands
 while [ "$name" != "?" ] ; do case $name in
    h) help=1;;   
    v) verb=1;;   
@@ -53,23 +56,20 @@ do
   # now
   z=`date +%y%m%d`
   #echo "Stat: $x; Now: $z; File: $d; $m $str ago: $e"
-  # checks whether file is more recent then req
-  if [ $d -ge $e -a $d -le $z ] # ToDo: fix year wrap-arounds
+  # checks whether file is more recent
+  if [ $d -ge $e -a $d -le $z ] 
   then 
-      # be verbose if we found a recent file
       if [ $verb -eq 1 ] 
         then echo "$f: modified (mmdd) $d"
       fi
-      # do the line count
       l=`wc -l $f | sed 's/^\([0-9]*\).*$/\1/'`
       echo "$f: $l"
-      # increase the counters
       n=$[ $n + 1 ]
       s=$[ $s + $l ]
   else
-      # not strictly necessary, because it's the end of the loop
       continue
   fi
 done
-
-echo "$n files in total, with $s lines in total"
+#print information
+echo "$n files in total"
+echo "$s lines in total"
